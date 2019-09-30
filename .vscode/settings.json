@@ -1,0 +1,20 @@
+{
+  "cSpell.words": [
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "eslint.validate": [
+    "javascript",
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    { 
+      "language": "html", 
+      "autoFix": true 
+    }
+  ]
+}
+  
