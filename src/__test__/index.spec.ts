@@ -44,6 +44,16 @@ describe('Test Index',  () => {
     });
 
     describe('#set', () => {
+        it('set simple', () => {
+            const change = query(testObj, {}, { $set: { 'address': 'BeiJing' } });
+            expect(testObj).toMatchObject({
+                name: 'Tobi',
+                address: 'BeiJing',
+                age: 8,
+                location: { country: 'Canada', zip: 123 },
+                likes: [{ id: 1, name: 'Food' }, { id: 2, name: 'Stuff' }]
+            })
+        });
         it('set null for new key', () => {
             const change = query(testObj, {}, { $set: { 'address': null } });
             expect(testObj).toMatchObject({
