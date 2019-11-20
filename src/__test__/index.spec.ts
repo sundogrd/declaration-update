@@ -1,4 +1,6 @@
+import * as commentJSON from 'comment-json';
 import { query } from '../index';
+
 describe('Test Index',  () => {
     let testObj = null;
     let testStores = null;
@@ -40,4 +42,80 @@ describe('Test Index',  () => {
             })
         });
     });
+
+    describe('#set', () => {
+        it('set null for new key', () => {
+            const change = query(testObj, {}, { $set: { 'address': null } });
+            expect(testObj).toMatchObject({
+                name: 'Tobi',
+                age: 8,
+                location: { country: 'Canada', zip: 123 },
+                likes: [{ id: 1, name: 'Food' }, { id: 2, name: 'Stuff' }]
+            })
+        });
+        it('set null for exist key', () => {
+            const change = query(testObj, {}, { $set: { 'name': null } });
+            expect(testObj).toMatchObject({
+                name: null,
+                age: 8,
+                location: { country: 'Canada', zip: 123 },
+                likes: [{ id: 1, name: 'Food' }, { id: 2, name: 'Stuff' }]
+            })
+        });
+    });
+
+    describe('#comment-json', () => {
+        it('comment-json object', () => {
+            const jsonFile = `
+                {
+                    "name": "packageName",
+                    "version": "1.1.0-alpha.4",
+                    "description": "test description",
+                    "main": "./dist/index.js",
+                    "keywords": [
+                        "make",
+                        "build",
+                        "test"
+                    ]
+                }
+            `;
+            const jsonContent = JSON.parse(jsonFile);
+            const _change = query(
+                jsonContent,
+                {},
+                {
+                    $pullAll: {
+                        keywords: ['make', 'build'],
+                    },
+                },
+            );
+            console.log(_change, JSON.stringify(jsonContent, undefined, 2));
+        })
+        it('comment-json object', () => {
+            const jsonWithCommentsFile = `
+                {
+                    "name": "packageName",
+                    "version": "1.1.0-alpha.4",
+                    "description": "test description",
+                    "main": "./dist/index.js",
+                    // I'm a comment
+                    "keywords": [
+                        "make",
+                        "build", // comment
+                    ]
+                }
+            `;
+            const jsonContent = commentJSON.parse(jsonWithCommentsFile);
+            const _change = query(
+                jsonContent,
+                {},
+                {
+                    $pullAll: {
+                        keywords: ['build', 'generate'],
+                    },
+                },
+            );
+            console.log(_change, commentJSON.stringify(jsonContent, undefined, 2));
+        })
+    })
 });

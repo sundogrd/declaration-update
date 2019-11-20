@@ -1,12 +1,11 @@
 # Declaration Update
-===
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
 [![Minified size][min-size-image]][bundlephobia-url]
 [![Gzip size][gzip-size-image]][bundlephobia-url]
 
-update object using mongodb way
+update object using mongodb way, also support `comment-json` object
 
 👷 Still Working.
 
